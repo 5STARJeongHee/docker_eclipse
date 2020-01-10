@@ -1,0 +1,30 @@
+FROM kigael/gui_ubuntu:18.04
+
+RUN apt-get update && \
+apt-get install software-properties-common apt-utils -y && \
+apt-get upgrade -y 
+
+RUN apt-get install -y openjdk-8-jdk firefox tar wget 
+
+RUN echo export JAVA_HOME="/usr" && \
+echo export PATH="$JAVA_HOME/bin:$PATH" && \
+. ~/.profile
+
+RUN wget http://ftp.jaist.ac.jp/pub/eclipse/technology/epp/downloads/release/2019-12/R/eclipse-jee-2019-12-R-linux-gtk-x86_64.tar.gz
+
+RUN tar xvfz eclipse-jee-2019-12-R-linux-gtk-x86_64.tar.gz
+ 
+RUN mv eclipse /opt
+
+RUN touch /usr/share/applications/eclipse.desktop 
+RUN echo [Desktop Entry] >> /usr/share/applications/eclipse.desktop \ 
+&& echo Encoding=UTF-8 >>  /usr/share/applications/eclipse.desktop \
+&& echo Comment=Eclipse IDE >>  /usr/share/applications/eclipse.desktop \
+&& echo Exec=/opt/eclipse/eclipse >> /usr/share/applications/eclipse.desktop \
+&& echo Icon=/opt/eclipse/icon.xpm >>  /usr/share/applications/eclipse.desktop \
+&& echo Terminal=false >>  /usr/share/applications/eclipse.desktop \
+&& echo Type=Application >>  /usr/share/applications/eclipse.desktop \
+&& echo Categories=Development >>  /usr/share/applications/eclipse.desktop \
+&& echo StartupNotif=true >>  /usr/share/applications/eclipse.desktop 
+
+
